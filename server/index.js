@@ -26,7 +26,7 @@ app.post("/create", (req,res) =>{
             if(err){
                 console.log(err)
                 }else{
-                    res.send("empleado registrado con exito!!");
+                    res.send(results);
                 }
         }
     )
@@ -56,17 +56,16 @@ app.put('/update', (req, res) => {
     });
   });
   
-  app.delete('/delete', (req, res) => {
-    const { id } = req.body; 
+  app.delete('/delete/:id', (req, res) => {
+    const id = req.params.id; 
 
-    const query = 'DELETE FROM empleados WHERE id = ?';
-
-    db.query(query, [id], (err, result) => {
+    db.query('DELETE FROM empleados WHERE id = ?', id,
+        (err, results) => {
       if (err) {
         console.log(err);
         return res.status(500).send('Error eliminando empleado');
       }
-      res.status(200).send('Empleado eliminado');
+      res.send(results);
     });
 });
 
